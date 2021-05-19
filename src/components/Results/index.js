@@ -1,21 +1,25 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import findResults from '../../redux/actions/findResults'
+import findSuggestions from '../../redux/actions/findSuggestions'
 
-const Results = (props) => {
-	const {results} = props
-	console.log(results)
+export const Results = (props) => {
+	const dispatch = useDispatch()
+	const pokemones = useSelector(store => store.suggestions.objects)
+	console.log("Results: ", pokemones)
 	return(
 		<>
-			<p>Results</p>
-			<p>Dui. Nunc accumsan, quam a fermentum mattis, magna sapien iaculis pede.</p>
+			<div className='flex flex-col items-center justify-center w-screen h-screen'>
+				<button className='px-2 bg-blue-300 border-transparent rounded-md hover:opacity-60' onClick={()=>dispatch(findResults())}>Fetch</button>
+				<lu>
+					{
+						pokemones.map(pokemon => (
+							<li key={pokemon.name}>{pokemon.name}</li>
+						))
+					}
+				</lu>
+			</div>
 		</>
 	)
 }
 
-const mapStateProps = (state) =>{
-	return{
-		results: state.results,
-	}
-}
-
-export default connect(mapStateProps)(Results)
